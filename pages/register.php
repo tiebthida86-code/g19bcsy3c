@@ -32,5 +32,5 @@
         </form>
     </div>
 <?php
-include '../include/fooler.inc.php';
+include '../include/footer.inc.php';
 ?>

@@ -29,6 +29,7 @@
     }
 
     .btn-register {
+        
         width: 100%;
         padding: 10px;
         font-weight: 500;
