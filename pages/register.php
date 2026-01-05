@@ -1,36 +1,22 @@
-<?php
-    include '../include/header.inc.php'
-?>
-<div class="containers">
-        <form class="mx-auto" style="max-width: 500px;">
-            <h3 class="my-3">Register</h3>
-            <div class="mb-3">
-                <label for="userNameInput" class="form-label">Username</label>
-                <input type="text" class="form-control" id="userNameInput">
-            </div>
-            <div class="mb-3">
-                <label for="emailInput" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp">
-                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-            </div>
-            <div class="mb-3">
-                <label for="passwdInput" class="form-label">Password</label>
-                <input type="password" class="form-control" id="passwdInput">
-            </div>
-            <div class="mb-3">
-                <label for="confirmPasswdInput" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="confirmPasswdInput">
-            </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="termsCB">
-                <label class="form-check-label" for="termsCB">I agree</label>
-            </div>
-            <div class="d-flex justify-content-between">
-                <button type="reset" class="btn btn-danger">Reset</button>
-                <button type="submit" class="btn btn-primary">Register</button>
-            </div>
-        </form>
-    </div>
-<?php
-include '../include/footer.inc.php';
-?>
+<form class="col-sm-8 col-lg-6 mx-auto">
+        <h3>Register</h3>
+
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
