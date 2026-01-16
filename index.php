@@ -1,4 +1,5 @@
 <?php
+include './init/db.init.php';
 include './include/header.inc.php';
 include './include/navbar.inc.php';
 
@@ -10,11 +11,11 @@ if (isset($_GET['page'])) {
     if (in_array($page, $availale_pages)) {
         include './pages/' . $page . '.php';
     } else {
-        echo '<h1>404 page not found</h1>';
+        include './pages/error404.php';
     }
     
 } else {
-    echo '<h1>404 page not found</h1>';
+    include  './pages/dashboard.php';
 }
 include './include/footer.inc.php';
 
