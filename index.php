@@ -1,5 +1,5 @@
 <?php
-include './init/db.init.php';
+require_once './init/init.php';
 include './include/header.inc.php';
 include './include/navbar.inc.php';
 
