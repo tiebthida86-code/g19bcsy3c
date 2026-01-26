@@ -10,10 +10,10 @@ if (isset($_POST['name'], $_POST['username'], $_POST['passwd'], $_POST['confirmP
         $nameErr = 'Please input name!';
     }
     if (empty($username)) {
-        $usernameErr = 'Please input username!';
+        $usernameErr = 'Please input your username!';
     }
     if (empty($passwd)) {
-        $passwdErr = 'Please input password!';
+        $passwdErr = 'Please input your password!';
     }
     if ($passwd !== $confirmPasswd) {
         $passwdErr = 'Password does not match!';
@@ -28,11 +28,18 @@ if (isset($_POST['name'], $_POST['username'], $_POST['passwd'], $_POST['confirmP
                     Registered. Go to <a href="./?page=login">Login</a>
                     </div>';
             // header('Location: ./?page=login');
+        } else{
+            echo '<div class = "Alert alert-danger" role = "alert">
+            Username exists or Service busy
+            </div>';
         }
+      
     }
 }
 
 ?>
+
+
 <form method="post" action="./?page=register" class="col-md-8 col-lg-6 mx-auto">
     <h3>Register</h3>
     <div class="mb-3">

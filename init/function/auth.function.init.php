@@ -13,6 +13,9 @@ function usernameExists($username){
 
 function registerUser($name,$username,$password){
     global $db;
+    if(usernameExists($username)){
+        return false;
+    }
     $query = $db->prepare('INSERT INTO tbl_users  (name, username, passwd) VALUES(?, ?, ?)');
     $query->bind_param('sss',$name, $username, $password);
     $query->execute();
@@ -20,5 +23,19 @@ function registerUser($name,$username,$password){
         return true;
     }
     return false;
+}
+
+function logUserIn($username,$passwd){
+    global $db;
+    $query = $db->prepare('SELECT * FROM tbl_users WHERE username = ? AND passwd = ?');
+    $query->bind_param('ss',$username ,$passwd);
+    $query->execute();
+    $result = $query->get_result();
+    if($result->num_rows) {
+        return $result->fetch_object();
+    }
+    return false;
+
+   
 }
 ?>
