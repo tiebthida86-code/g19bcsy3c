@@ -1,20 +1,21 @@
 <?php
-$username = '';
+$username =  '';
 $usernameErr = $passwdErr = '';
 if (isset($_POST['username'], ($_POST['passwd']))) {
     $username = trim($_POST['username']);
-    $password = trim($_POST['passwd']);
+    $passwd = trim($_POST['passwd']);
     if (empty($username)) {
         $usernameErr = 'Please input your username!';
     }
-    if (empty($password)) {
+    if (empty($passwd)) {
         $passwdErr = 'Please input your password!';
     }
-    if (empty($usernameErr) && empty($password)) {
-        $user = logUserIn($username, $password);
-        if($user !== false) {
+    if (empty($usernameErr) && empty($passwdErr)) {
+        $user = logUserIn($username, $passwd);
+        if ($user !== false) {
+            $_SESSION['user_id'] = $user->id;
             header('Location: ./?page=dashboard');
-        }else{
+        } else {
             echo '<div class = "Alert alert-danger" role = "alert">
             Login failed!
             </div>';

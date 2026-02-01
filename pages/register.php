@@ -7,7 +7,7 @@ if (isset($_POST['name'], $_POST['username'], $_POST['passwd'], $_POST['confirmP
     $passwd = trim($_POST['passwd']);
     $confirmPasswd = trim($_POST['confirmPasswd']);
     if (empty($name)) {
-        $nameErr = 'Please input name!';
+        $nameErr = 'Please input your name!';
     }
     if (empty($username)) {
         $usernameErr = 'Please input your username!';

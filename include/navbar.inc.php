@@ -1,3 +1,7 @@
+<!-- <?php
+print_r($user);
+var_dump($user);
+?> -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
@@ -18,18 +22,26 @@
             aria-expanded="false">
             Auth
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="/bcsy3s1p19/?page=login">Login</a></li>
-            <li><a class="dropdown-item" href="/bcsy3s1p19/?page=register">Register</a></li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          <ul class="dropdown-menu">
+            <?php if (empty($user)) { ?>
+              <li><a class="dropdown-item" href="/g19bcsy3c/?page=login">Login</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="/g19bcsy3c/?page=register">Register</a></li>
+            <?php } else { ?>
+              <li><a class="dropdown-item" href="/g19bcsy3c/?page=logout">Logout</a></li>
+            <?php } ?>
           </ul>
+        <li>
+          <hr class="dropdown-divider">
         </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
+
+      </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </li>
       </ul>
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
