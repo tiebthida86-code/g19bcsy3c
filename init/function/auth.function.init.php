@@ -12,14 +12,14 @@ function usernameExists($username)
     return false;
 }
 
-function registerUser($name, $username, $password)
+function registerUser($name, $username, $passwd)
 {
     global $db;
     if (usernameExists($username)) {
         return false;
     }
     $query = $db->prepare('INSERT INTO tbl_users  (name, username, passwd) VALUES(?, ?, ?)');
-    $query->bind_param('sss', $name, $username, $password);
+    $query->bind_param('sss', $name, $username, $passwd);
     $query->execute();
     if ($query->affected_rows) {
         return true;

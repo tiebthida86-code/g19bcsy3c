@@ -35,7 +35,7 @@ if (isset($_POST['username'], ($_POST['passwd']))) {
     <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Password</label>
         <input name="passwd" type="password" class="form-control 
-            <?php echo empty($passwdErr) ? '' : 'is-invalid' ?>">
+            <?php echo empty($passSwdErr) ? '' : 'is-invalid' ?>">
         <div class="invalid-feedback"><?php echo $passwdErr ?></div>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
