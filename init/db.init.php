@@ -5,7 +5,7 @@ $db_user = 'root';
 $db_pass = '';
 $db_port = 3306;
 
-$db = new mysqli($db_host,$db_user,$db_pass,$db_name,$db_port);
+$db = new mysqli($db_host, $db_user, $db_pass, $db_name, $db_port);
 
 if ($db->connect_error) {
     echo $db->connect_error;

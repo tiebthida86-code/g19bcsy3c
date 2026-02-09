@@ -7,8 +7,8 @@ include './include/navbar.inc.php';
 
 
 
-$available_pages = ['login', 'register', 'logout', 'dashboard'];
-$logged_in_pages = ['dashboard'];
+$available_pages = ['login', 'register', 'logout', 'dashboard','profile'];
+$logged_in_pages = ['dashboard','profile'];
 $non_logged_in_pages = ['login', 'register'];
 $page = '';
 if (isset($_GET['page'])) {
