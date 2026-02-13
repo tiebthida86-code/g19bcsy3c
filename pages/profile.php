@@ -2,48 +2,49 @@
 $oldPasswd = $newPasswd = $confirmNewPasswd = '';
 $oldPasswdErr = $newPasswdErr = '';
 
-if (isset($_POST['changePasswd'], $_POST['oldPasswd'], $_POST['newPasswd'], $_POST['confirmNewPasswd'])) {
-    $oldPasswd = trim($_POST['oldPasswd']);
-    $newPasswd = trim($_POST['newPasswd']);
-    $confirmNewPasswd = trim($_POST['confirmNewPasswd']);
-    if (empty($oldPasswd)) {
-        $oldPasswdErr = 'please input your old password';
-    }
-    if (empty($newPasswd)) {
-        $newPasswdErr = 'please input your new password';
-    }
-    if ($newPasswd !== $confirmNewPasswd) {
-        $newPasswdErr = 'password does not match';
-    }
-    if (!isUserHasPassword($oldPasswd)) {
-        $oldPasswdErr = 'password is incorrect';
-    }
-    if (empty($oldPasswdErr) && empty($newPasswdErr)) {
-        if (setUserNewPassowrd($newPasswd)) {
-            header('Location: ./?page=logout');
-        } else {
-            echo '<div class="alert alert-danger" role="alert">
-                try aggain.
-                </div>';
-        }
-    }
-}
+$user = loggedInUser();
+
+if (isset($_POST['updatePhoto']))
+    updatePhoto($user);
+if (isset($_POST['deletePhoto']))
+    deletePhoto($user);
+
+// refresh user after any changes
+$user = loggedInUser();
+
+$currentPhoto = (!empty($user->photo) && file_exists('./assets/images/' . $user->photo))
+    ? './assets/images/' . $user->photo
+    : './assets/images/emptyuser.png';
 ?>
 
 <div class="row">
     <div class="col-6">
-        <form method="post" action="./?page=profile">
+        <form method="post" action="./?page=profile" enctype="multipart/form-data">
             <div class="d-flex justify-content-center">
-                <input name="photo" type="file" id="profileUpload" hidden>
+                <input name="photo" type="file" accept=".png, .jpg, .jpeg" id="profileUpload" hidden>
                 <label role="button" for="profileUpload">
-                    <img src="./assets/images/emptyuser.png" class="rounded">
+                    <img id="previewImg" src="<?php echo $currentPhoto ?>" class="rounded"
+                        style="width:150px; height:150px; object-fit:cover;">
                 </label>
             </div>
-            <div class="d-flex justify-content-center">
-                <button type="submit" name="deletePhoto" class="btn btn-danger">Delete</button>
-                <button type="submit" name="uploadPhoto" class="btn btn-success">Upload</button>
+            <div class="d-flex justify-content-center mt-2">
+                <button type="submit" name="deletePhoto" class="btn btn-danger"
+                    onclick="return confirm('Are you sure you want to delete your photo?')">Delete</button>
+                <button type="submit" name="updatePhoto" class="btn btn-success">Upload</button>
             </div>
         </form>
+
+        <!-- preview: runs in browser, needs a tiny bit of JS -->
+        <script>
+            document.getElementById('profileUpload').onchange = function () {
+                var file = this.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        </script>
     </div>
 
     <div class="col-6">

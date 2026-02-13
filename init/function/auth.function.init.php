@@ -81,11 +81,83 @@ function setUserNewPassowrd($passwd)
     $query = $db->prepare(
         "UPDATE tbl_users SET passwd = ? WHERE id = ?"
     );
-    $query->bind_param('ss',  $passwd, $user->id);
+    $query->bind_param('ss', $passwd, $user->id);
     $query->execute();
     if ($db->affected_rows) {
         return true;
     }
     return false;
 }
+
+function uploadUserProfile($imgPath)
+{
+    global $db;
+    $user = loggedInUser();
+    if (!$user) {
+        return false;
+    }
+    $query = $db->prepare("UPDATE tbl_users SET photo = ? WHERE id = ?");
+    $query->bind_param('si', $imgPath, $user->id);
+    if ($query->execute()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function deletePhotoFile($photo)
+{
+    if (!empty($photo) && $photo !== 'emptyuser.png' && file_exists('./assets/images/' . $photo)) {
+        unlink('./assets/images/' . $photo);
+    }
+}
+
+function updatePhoto($user)
+{
+    global $db;
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] === 0) {
+
+        $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        $fileType = mime_content_type($_FILES['photo']['tmp_name']);
+
+        if (!in_array($fileType, $allowedTypes)) {
+            echo '<div class="alert alert-warning" role="alert">Only JPG and PNG files are allowed.</div>';
+        } else {
+            $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+            $newName = 'user_' . $user->id . '.' . $ext;
+            $dest = './assets/images/' . $newName;
+
+            // delete old photo file from folder
+            deletePhotoFile($user->photo);
+
+            // move uploaded file to ./assets/images/ folder
+            if (move_uploaded_file($_FILES['photo']['tmp_name'], $dest)) {
+                $query = $db->prepare('UPDATE tbl_users SET photo = ? WHERE id = ?');
+                $query->bind_param('si', $newName, $user->id);
+                $query->execute();
+                echo '<div class="alert alert-success" role="alert">Photo updated successfully!</div>';
+            } else {
+                echo '<div class="alert alert-danger" role="alert">Failed to save photo to folder.</div>';
+            }
+        }
+
+    } else {
+        echo '<div class="alert alert-warning" role="alert">Please select a photo.</div>';
+    }
+}
+
+function deletePhoto($user)
+{
+    global $db;
+    // delete file from ./assets/images/ folder
+    deletePhotoFile($user->photo);
+    // set photo column back to NULL in database
+    $query = $db->prepare('UPDATE tbl_users SET photo = NULL WHERE id = ?');
+    $query->bind_param('i', $user->id);
+    $query->execute();
+    echo '<div class="alert alert-success" role="alert">Photo deleted successfully!</div>';
+}
+
+
+
 ?>
