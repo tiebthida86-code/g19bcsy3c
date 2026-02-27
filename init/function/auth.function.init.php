@@ -89,75 +89,73 @@ function setUserNewPassowrd($passwd)
     return false;
 }
 
-function uploadUserProfile($imgPath)
-{
+function changeProfileImage($image){
     global $db;
     $user = loggedInUser();
-    if (!$user) {
-        return false;
+    $image_path = uploadImage($image);
+    if ($image_path && $user->photo) {
+        unlink($user->photo);
     }
-    $query = $db->prepare("UPDATE tbl_users SET photo = ? WHERE id = ?");
-    $query->bind_param('si', $imgPath, $user->id);
-    if ($query->execute()) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function deletePhotoFile($photo)
-{
-    if (!empty($photo) && $photo !== 'emptyuser.png' && file_exists('./assets/images/' . $photo)) {
-        unlink('./assets/images/' . $photo);
-    }
-}
-
-function updatePhoto($user)
-{
-    global $db;
-    if (isset($_FILES['photo']) && $_FILES['photo']['error'] === 0) {
-
-        $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-        $fileType = mime_content_type($_FILES['photo']['tmp_name']);
-
-        if (!in_array($fileType, $allowedTypes)) {
-            echo '<div class="alert alert-warning" role="alert">Only JPG and PNG files are allowed.</div>';
-        } else {
-            $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
-            $newName = 'user_' . $user->id . '.' . $ext;
-            $dest = './assets/images/' . $newName;
-
-            // delete old photo file from folder
-            deletePhotoFile($user->photo);
-
-            // move uploaded file to ./assets/images/ folder
-            if (move_uploaded_file($_FILES['photo']['tmp_name'], $dest)) {
-                $query = $db->prepare('UPDATE tbl_users SET photo = ? WHERE id = ?');
-                $query->bind_param('si', $newName, $user->id);
-                $query->execute();
-                echo '<div class="alert alert-success" role="alert">Photo updated successfully!</div>';
-            } else {
-                echo '<div class="alert alert-danger" role="alert">Failed to save photo to folder.</div>';
-            }
-        }
-
-    } else {
-        echo '<div class="alert alert-warning" role="alert">Please select a photo.</div>';
-    }
-}
-
-function deletePhoto($user)
-{
-    global $db;
-    // delete file from ./assets/images/ folder
-    deletePhotoFile($user->photo);
-    // set photo column back to NULL in database
-    $query = $db->prepare('UPDATE tbl_users SET photo = NULL WHERE id = ?');
-    $query->bind_param('i', $user->id);
+    $query = $db->prepare('UPDATE tbl_users SET photo = ? WHERE id = ?');
+    $query->bind_param('sd',$image_path, $user->id);
     $query->execute();
-    echo '<div class="alert alert-success" role="alert">Photo deleted successfully!</div>';
+    if ($db->affected_rows){
+        return true;
+    }
+    return false;
 }
 
+function deleteProfileImage() {
+    global $db;
+    $user = loggedInUser();
+    if ($user->photo) {
+        unlink($user->photo);
+    }
+    $query = $db->prepare('UPDATE tbl_users SET photo = NULL WHERE id = ?');
+    $query->bind_param('d', $user->id);
+    $query->execute();
+    if ($db->affected_rows) {
+        return true;
+    }
+    return false;
+}
+
+function uploadImage($image) {
+    $img_name = $image['name'];
+    $img_size = $image['size'];
+    $tmp_name = $image['tmp_name'];
+    $error = $image['error'];
+    
+    $dir = './assets/images/';
+
+    $allow_exs = ['jpg', 'png', 'jpeg'];
+    $image_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+    $image_lowercase_ex = strtolower($image_ex);
+
+    if(!in_array($image_lowercase_ex, $allow_exs)) {
+        throw new Exception('File extension is not allowed!');
+    }
+    if ($error !== 0) {
+        throw new Exception('Unknown error occured!');
+    }
+    if ($img_size > 500000) {
+        throw new Exception('File size is too large!');
+    }
+
+    $new_image_name = uniqid("PI") . '.' . $image_lowercase_ex;
+    $image_path = $dir . $new_image_name;
+    move_uploaded_file($tmp_name, $image_path);
+    return $image_path;
+}
+
+
+// function isAdmin() {
+//     return loggedInUser()->level === 'admin';
+// }
+function isAdmin() {
+    $user = loggedInUser();
+    return $user && $user->level === 'admin';
+}
 
 
 ?>
