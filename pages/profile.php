@@ -61,64 +61,7 @@ if (isset($_POST['deletePhoto'])) {
 ?>
 
 <div class="row">
-    <style>
-        /* Container for the avatar */
-        .avatar-wrapper {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            margin: 0 auto;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .avatar-wrapper:hover {
-            transform: scale(1.03);
-        }
-
-        /* The actual image */
-        #previewImg {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border: 4px solid #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            border-radius: 50% !important;
-            /* Forces a circle */
-        }
-
-        /* "Change Photo" overlay that appears on hover */
-        .avatar-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-            font-weight: 500;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .avatar-wrapper:hover .avatar-overlay {
-            opacity: 1;
-        }
-
-        /* Button adjustments */
-        .profile-actions .btn {
-            border-radius: 20px;
-            padding: 5px 20px;
-            font-weight: 600;
-            min-width: 100px;
-        }
-    </style>
-
+   
     <div class="col-6 mx-auto">
         <div class="col-6">
             <form method="post" action="./?page=profile" enctype="multipart/form-data">
