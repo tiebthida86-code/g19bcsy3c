@@ -7,36 +7,39 @@ if (isset($_POST['name'], $_POST['username'], $_POST['passwd'], $_FILES['photo']
     $username = trim($_POST['username']);
     $passwd = trim($_POST['passwd']);
     if (empty($name)) {
-        $nameErr = 'Please input your name!';
+        $nameErr = 'please input name!';
     }
     if (empty($username)) {
-        $usernameErr = 'Please input your username!';
+        $usernameErr = 'please input username!';
     }
     if (empty($passwd)) {
-        $passwdErr = 'Please input your password!';
+        $passwdErr = 'please input password!';
     }
     if (usernameExists($username)) {
         $usernameErr = 'Username exists!';
     }
     if (empty($nameErr) && empty($usernameErr) && empty($passwdErr)) {
-        // if (registerUser($name, $username, $passwd)) {
-        //     $name = $username = $passwd = '';
-        //     echo '<div class="alert alert-success" role="alert">
-        //             Registered. Go to <a href="./?page=login">Login</a>
-        //             </div>';
-        //     // header('Location: ./?page=login');
-        // } else {
-        //     echo '<div class = "Alert alert-danger" role = "alert">
-        //     Username exists or Service busy
-        //     </div>';
-        // }
-
+        try {
+            if (createUser($name, $username, $passwd, $photo)) {
+                $name = $username = $passwd = '';
+                echo '<div class="alert alert-success" role="alert">
+                Create success.
+                </div>';
+            } else {
+                echo '<div class="alert alert-danger" role="alert">
+                 Create failed!
+                </div>';
+            }
+        } catch (Exception $e) {
+            echo '<div class="alert alert-danger" role="alert">
+                 ' . $e->getMessage() . '
+                </div>';
+        }
     }
 }
 ?>
 
-
-<form method="post" action="./?page=use/create" enctype="multipart/form-data" class="col-md-8 col-lg-6 mx-auto">
+<form method="post" action="./?page=user/create" enctype="multipart/form-data" class="col-md-8 col-lg-6 mx-auto">
     <h3>Create User</h3>
     <div class="d-flex justify-content-center">
         <input name="photo" type="file" id="profileUpload" hidden>
@@ -69,5 +72,4 @@ if (isset($_POST['name'], $_POST['username'], $_POST['passwd'], $_FILES['photo']
         </div>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
-
 </form>
