@@ -80,16 +80,16 @@ if (isset($_POST['deletePhoto'])) {
             </form>
 
             <script>
-                document.getElementById('profileUpload').onchange = function () {
-                    var file = this.files[0];
-                    if (file) {
-                        var reader = new FileReader();
-                        reader.onload = function (e) {
-                            document.getElementById('previewImg').src = e.target.result;
-                        }
-                        reader.readAsDataURL(file);
-                    }
-                }
+                // document.getElementById('profileUpload').onchange = function () {
+                //     var file = this.files[0];
+                //     if (file) {
+                //         var reader = new FileReader();
+                //         reader.onload = function (e) {
+                //             document.getElementById('previewImg').src = e.target.result;
+                //         }
+                //         reader.readAsDataURL(file);
+                //     }
+                // }
             </script>
         </div>
     </div>
