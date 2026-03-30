@@ -73,3 +73,4 @@ if (isset($_POST['name'], $_POST['username'], $_POST['passwd'], $_FILES['photo']
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+

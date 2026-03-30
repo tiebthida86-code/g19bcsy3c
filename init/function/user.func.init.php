@@ -42,7 +42,14 @@ function readUser($id)
 function deleteUser($id)
 {
     global $db;
-    $query = $db->prepare('SELECT * From tbl_users WHERE id=?');
+
+    $targetUser = readUser($id);
+    if($targetUser->photo){
+        unlink($targetUser->photo);
+    }
+
+
+    $query = $db->prepare('DELETE FROM tbl_users WHERE id=?');
     $query->bind_param('i', $id);
     $query->execute();
     if ($db->affected_rows) {
@@ -73,7 +80,7 @@ function updateUser($id, $name, $username, $passwd, $photo)
     }
 
     $query->execute();
-    if ($db->affected_rows) {
+    if ($db->affected_rows) {  
         return true;
     }
     return false;

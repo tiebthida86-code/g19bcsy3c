@@ -19,7 +19,9 @@ var_dump($user);
         </li> -->
         <?php if ($isAdmin) { ?>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo $baseUrl ?>?page=user/list">Users</a>
+            <a class="nav-link" href="<?php echo $baseUrl ?>?page=user/list">
+              Users <i class="bi bi-people-fill"></i>
+            </a>
           </li>
         <?php } ?>
 

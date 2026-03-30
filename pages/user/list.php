@@ -32,9 +32,14 @@
                         <?php echo $row->name ?>
                     </td>
                     <td>
-                        <a href="./?page=user/update&id=<?php echo $row->id ?>" class = "btn btn-primary">Update</a>
-                        <a href="./?page=user/delete&id=<?php echo $row->id ?>" class= "btn btn-danger">Delete</a>   
-                        
+                        <a href="./?page=user/update&id=<?php echo $row->id ?>" class="btn btn-primary">
+                            Update <i class="bi bi-pencil-fill"></i>
+                        </a>
+                        <a href="./?page=user/delete&id=<?php echo $row->id ?>" class="btn btn-danger button-delete">
+                            Delete <i class="bi bi-trash3-fill"></i>
+                        </a>
+
+
                     </td>
                 </tr>
                 <?php
@@ -49,3 +54,37 @@
     </table>
 
 </div>
+
+<script>
+    const btnDeletes = document.querySelector('.button-delete');
+    // btnDeletes.forEach(element => {
+    //     element.addEventListener('click', function(e) {
+    //         e.preventDefault();
+    //         alert('click')
+    //     });
+    // });
+    $(document).ready(function () {
+        
+        $('.button-delete').click(function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#f04f2b",
+                cancelButtonColor: "rgb(185, 174, 174)",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) ({
+                   window.location.href= $(this).attr('href');
+                });
+            });
+
+        });
+
+
+    });
+
+
+</script>
